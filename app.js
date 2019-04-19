@@ -4,13 +4,19 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 
 // passport config require
-require('./config/passport')(passport);
+require('./config/passport');
 
 
 const app = express();
+
+// util middleware
+app.use(bodyParser.json());
+app.use(cors());
 
 // db connection
 const db = require('./config/keys').mongoUri;
@@ -38,7 +44,7 @@ app.use(session({
 
 //passport session
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 // flash
 app.use(flash())
